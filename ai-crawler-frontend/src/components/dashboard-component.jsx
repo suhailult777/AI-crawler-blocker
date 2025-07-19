@@ -7,9 +7,13 @@ import RequestLogsTable from './dashboard/RequestLogsTable';
 import SettingsPanel from './dashboard/SettingsPanel';
 import RevenueManagement from './dashboard/RevenueManagement';
 import BillingPanel from './dashboard/billing-panel';
+import SiteManagementDashboard from './dashboard/site-management-dashboard';
+import BotProtectionPanel from './dashboard/bot-protection-panel';
+import WordPressAnalyticsPanel from './dashboard/wordpress-analytics-panel';
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('overview');
+    const [selectedSiteId, setSelectedSiteId] = useState(null);
     const [dashboardData, setDashboardData] = useState({
         overview: {
             botsBlockedToday: 1247,
@@ -31,6 +35,9 @@ const Dashboard = () => {
         { id: 'bots', name: 'Bot Control', icon: '🤖' },
         { id: 'analytics', name: 'Analytics', icon: '📈' },
         { id: 'logs', name: 'Request Logs', icon: '📋' },
+        { id: 'wordpress', name: 'WordPress Sites', icon: '🌐' },
+        { id: 'protection', name: 'Bot Protection', icon: '🛡️' },
+        { id: 'wp-analytics', name: 'WP Analytics', icon: '📊' },
         { id: 'revenue', name: 'Revenue', icon: '💰' },
         { id: 'billing', name: 'Billing', icon: '💳' },
         { id: 'settings', name: 'Settings', icon: '⚙️' }
@@ -73,6 +80,24 @@ const Dashboard = () => {
                 return <AnalyticsCharts />;
             case 'logs':
                 return <RequestLogsTable />;
+            case 'wordpress':
+                return <SiteManagementDashboard onSiteSelect={setSelectedSiteId} />;
+            case 'protection':
+                return selectedSiteId ? (
+                    <BotProtectionPanel siteId={selectedSiteId} />
+                ) : (
+                    <div className="bg-gray-800 rounded-lg p-6 text-center">
+                        <p className="text-gray-400">Please select a site from the WordPress Sites tab first</p>
+                    </div>
+                );
+            case 'wp-analytics':
+                return selectedSiteId ? (
+                    <WordPressAnalyticsPanel siteId={selectedSiteId} />
+                ) : (
+                    <div className="bg-gray-800 rounded-lg p-6 text-center">
+                        <p className="text-gray-400">Please select a site from the WordPress Sites tab first</p>
+                    </div>
+                );
             case 'revenue':
                 return <RevenueManagement />;
             case 'billing':

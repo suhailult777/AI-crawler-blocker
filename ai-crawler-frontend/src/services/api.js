@@ -1,5 +1,5 @@
 // API Configuration
-const API_BASE_URL = 'http://localhost:5500/api/v1';
+const API_BASE_URL = 'http://localhost:3001/api/v1';
 
 // API Client class for handling HTTP requests
 class ApiClient {
@@ -100,28 +100,28 @@ export const userAPI = {
 export const subscriptionAPI = {
   // Create a new subscription
   create: (subscriptionData) => apiClient.post('/subscriptions', subscriptionData),
-  
+
   // Get current user's active subscription
   getCurrent: () => apiClient.get('/subscriptions/me/current'),
-  
+
   // Get all subscriptions (admin)
   getAll: () => apiClient.get('/subscriptions'),
-  
+
   // Get subscription by ID
   getById: (id) => apiClient.get(`/subscriptions/${id}`),
-  
+
   // Get user's subscriptions
   getUserSubscriptions: (userId) => apiClient.get(`/subscriptions/user/${userId}`),
-  
+
   // Update subscription
   update: (id, updateData) => apiClient.put(`/subscriptions/${id}`, updateData),
-  
+
   // Cancel subscription
   cancel: (id) => apiClient.put(`/subscriptions/${id}/cancel`),
-  
+
   // Upgrade plan
   upgradePlan: (planName) => apiClient.put('/subscriptions/me/upgrade', { planName }),
-  
+
   // Get upcoming renewals
   getRenewals: () => apiClient.get('/subscriptions/upcoming-renewals'),
 };
@@ -187,7 +187,7 @@ export const apiHelpers = {
   // Handle API errors consistently
   handleError: (error) => {
     console.error('API Error:', error);
-    
+
     if (error.message.includes('401') || error.message.includes('Unauthorized')) {
       // Clear auth data and redirect to login
       localStorage.removeItem('botguard_token');
@@ -195,18 +195,18 @@ export const apiHelpers = {
       window.location.href = '/auth';
       return;
     }
-    
+
     throw error;
   },
 
   // Format subscription data for display
   formatSubscription: (subscription) => {
     if (!subscription) return null;
-    
+
     return {
       ...subscription,
-      features: typeof subscription.features === 'string' 
-        ? JSON.parse(subscription.features) 
+      features: typeof subscription.features === 'string'
+        ? JSON.parse(subscription.features)
         : subscription.features,
       formattedPrice: `$${subscription.price}/${subscription.frequency}`,
       daysUntilRenewal: Math.ceil(

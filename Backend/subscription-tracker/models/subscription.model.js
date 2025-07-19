@@ -17,7 +17,9 @@ const PLAN_CONFIGS = {
         limits: {
             monthlyRequests: 10000,
             botDetectionAccuracy: 95,
-            analyticsRetention: 30 // days
+            analyticsRetention: 30, // days
+            maxSites: 1,
+            wordpressPluginAccess: false
         }
     },
     pro: {
@@ -35,7 +37,9 @@ const PLAN_CONFIGS = {
         limits: {
             monthlyRequests: 100000,
             botDetectionAccuracy: 99,
-            analyticsRetention: 365 // days
+            analyticsRetention: 365, // days
+            maxSites: 5,
+            wordpressPluginAccess: true
         }
     },
     enterprise: {
@@ -53,7 +57,9 @@ const PLAN_CONFIGS = {
         limits: {
             monthlyRequests: -1, // unlimited
             botDetectionAccuracy: 99.9,
-            analyticsRetention: -1 // unlimited
+            analyticsRetention: -1, // unlimited
+            maxSites: -1, // unlimited
+            wordpressPluginAccess: true
         }
     }
 };

@@ -37,6 +37,7 @@ AI-Crawler/
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** with Vite
 - **Tailwind CSS** for styling
 - **React Router** for navigation
@@ -44,6 +45,7 @@ AI-Crawler/
 - **Chart.js** for analytics visualization
 
 ### Backend
+
 - **Node.js** with Express
 - **PostgreSQL** with Neon database
 - **JWT** authentication
@@ -54,6 +56,7 @@ AI-Crawler/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - PostgreSQL database (or Neon account)
 - GitHub account for OAuth (optional)
@@ -76,6 +79,7 @@ npm install
 ```
 
 Create a `.env.development.local` file:
+
 ```env
 PORT=5500
 NODE_ENV=development
@@ -89,6 +93,7 @@ EMAIL_PASSWORD=your_email_app_password
 ```
 
 Start the backend:
+
 ```bash
 npm start
 ```
@@ -99,48 +104,54 @@ The backend will be available at `http://localhost:5500`
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Backend server port |
-| `DB_URI` | PostgreSQL connection string |
-| `JWT_SECRET` | Secret key for JWT tokens |
-| `ARCJET_KEY` | Arcjet security service key |
-| `QSTASH_URL` | Upstash queue service URL |
-| `QSTASH_TOKEN` | Upstash authentication token |
+| Variable         | Description                    |
+| ---------------- | ------------------------------ |
+| `PORT`           | Backend server port            |
+| `DB_URI`         | PostgreSQL connection string   |
+| `JWT_SECRET`     | Secret key for JWT tokens      |
+| `ARCJET_KEY`     | Arcjet security service key    |
+| `QSTASH_URL`     | Upstash queue service URL      |
+| `QSTASH_TOKEN`   | Upstash authentication token   |
 | `EMAIL_PASSWORD` | App password for email service |
 
 ## 📊 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 
 ### Subscriptions
+
 - `GET /api/subscriptions` - Get user subscriptions
 - `POST /api/subscriptions` - Create new subscription
 - `PUT /api/subscriptions/:id` - Update subscription
 - `DELETE /api/subscriptions/:id` - Cancel subscription
 
 ### Users
+
 - `GET /api/users/profile` - Get user profile
 - `PUT /api/users/profile` - Update user profile
 
 ## 🎯 Subscription Plans
 
 ### Free Tier
+
 - Advanced bot detection
 - Basic revenue analytics
 - Real-time monitoring
 - Community support
 
 ### Pro Tier ($15/month)
+
 - Full monetization engine
 - Stripe Connect integration
 - Advanced rule engine
 - Priority support
 
 ### Enterprise Tier ($99/month)
+
 - White-label solution
 - Custom integrations
 - Dedicated account manager
@@ -156,6 +167,7 @@ The backend will be available at `http://localhost:5500`
 ## 📧 Email Templates
 
 The system includes automated email templates for:
+
 - Subscription confirmation
 - Cancellation notifications
 - Payment reminders
@@ -164,12 +176,14 @@ The system includes automated email templates for:
 ## 🚀 Deployment
 
 ### Frontend (Vercel/Netlify)
+
 ```bash
 npm run build
 # Deploy the dist/ folder
 ```
 
 ### Backend (Railway/Heroku)
+
 ```bash
 # Set environment variables
 # Deploy from GitHub repository
