@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import PluginInstallationWizard from './plugin-installation-wizard';
 import WordPressPluginGuide from './wordpress-plugin-guide';
+import WordPressSiteConfig from './wordpress-site-config';
 
 // API Client for authenticated requests
 class ApiClient {
@@ -78,6 +79,7 @@ const SiteManagementDashboard = ({ onSiteSelect }) => {
   const [loading, setLoading] = useState(true);
   const [showWizard, setShowWizard] = useState(false);
   const [showPluginGuide, setShowPluginGuide] = useState(false);
+  const [showConfig, setShowConfig] = useState(false);
   const [selectedSite, setSelectedSite] = useState(null);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -128,10 +130,19 @@ const SiteManagementDashboard = ({ onSiteSelect }) => {
         console.log('🔄 Refreshing sites list...');
         await fetchSites();
 
-        // If it's a WordPress plugin, show the setup guide
+        // If it's a WordPress plugin, show the setup guide and auto-configure
         if (siteData.siteType === 'wordpress_plugin') {
           setSelectedSite(result.data.site);
           setShowPluginGuide(true);
+
+          // Auto-configure after a short delay to allow plugin installation
+          setTimeout(async () => {
+            try {
+              await autoConfigureWordPressPlugin(result.data.site.id);
+            } catch (error) {
+              console.error('Auto-configuration failed:', error);
+            }
+          }, 3000);
         } else {
           toast.success('Site added successfully! Check your email for integration instructions.');
         }
@@ -180,6 +191,51 @@ const SiteManagementDashboard = ({ onSiteSelect }) => {
     } catch (error) {
       toast.error('Error updating site status');
       console.error('Error:', error);
+    }
+  };
+
+  const handleConfigUpdate = (updatedSite) => {
+    // Update the site in the local state
+    setSites(prevSites =>
+      prevSites.map(site =>
+        site.id === updatedSite.id ? { ...site, ...updatedSite } : site
+      )
+    );
+  };
+
+  const autoConfigureWordPressPlugin = async (siteId) => {
+    try {
+      console.log('🔧 Auto-configuring WordPress plugin for site:', siteId);
+
+      // Default configuration for new WordPress sites
+      const defaultConfig = {
+        monetizationEnabled: false,
+        pricingPerRequest: 0.001,
+        allowedBots: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot'],
+        botProtectionEnabled: true,
+        customRules: []
+      };
+
+      const result = await apiClient.post(`/wordpress/sites/${siteId}/configure`, {
+        settings: defaultConfig
+      });
+
+      if (result.success) {
+        console.log('✅ WordPress plugin auto-configured successfully');
+        toast.success('WordPress plugin configured automatically!');
+
+        // Update the site in local state
+        setSites(prevSites =>
+          prevSites.map(site =>
+            site.id === siteId ? { ...site, ...result.data.site } : site
+          )
+        );
+      } else {
+        console.log('⚠️ Auto-configuration failed, plugin may not be ready yet');
+      }
+    } catch (error) {
+      console.error('❌ Auto-configuration error:', error);
+      // Don't show error toast as this is automatic and may fail if plugin isn't ready
     }
   };
 
@@ -395,6 +451,17 @@ const SiteManagementDashboard = ({ onSiteSelect }) => {
                   >
                     View Details
                   </button>
+                  {site.siteType === 'wordpress_plugin' && (
+                    <button
+                      onClick={() => {
+                        setSelectedSite(site);
+                        setShowConfig(true);
+                      }}
+                      className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded transition duration-200"
+                    >
+                      Configure
+                    </button>
+                  )}
                   <button
                     onClick={() => handleToggleStatus(site.id, site.status)}
                     className={`px-3 py-1 text-white text-sm rounded transition duration-200 ${site.status === 'active'
@@ -432,6 +499,17 @@ const SiteManagementDashboard = ({ onSiteSelect }) => {
             setShowPluginGuide(false);
             setSelectedSite(null);
           }}
+        />
+      )}
+
+      {showConfig && selectedSite && (
+        <WordPressSiteConfig
+          site={selectedSite}
+          onClose={() => {
+            setShowConfig(false);
+            setSelectedSite(null);
+          }}
+          onConfigUpdate={handleConfigUpdate}
         />
       )}
     </div>

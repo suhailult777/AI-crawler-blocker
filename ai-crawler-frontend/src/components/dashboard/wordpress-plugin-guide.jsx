@@ -14,7 +14,7 @@ const WordPressPluginGuide = ({ site, onClose }) => {
 
   const downloadPlugin = () => {
     // Create a download link for the WordPress plugin
-    const pluginUrl = '/wp-admin/crawlguard-wp.zip'; // This should be served from your backend
+    const pluginUrl = 'http://localhost:3001/api/v1/wordpress/plugin/download';
     const link = document.createElement('a');
     link.href = pluginUrl;
     link.download = 'crawlguard-wp.zip';
@@ -94,60 +94,63 @@ const WordPressPluginGuide = ({ site, onClose }) => {
       )
     },
     {
-      title: 'Configure API Key',
-      description: 'Enter your API key in the plugin settings',
+      title: 'Automatic Configuration',
+      description: 'Your plugin will be configured automatically',
       content: (
         <div className="space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
-              <div>
-                <p className="text-white font-medium">Find Plugin Settings</p>
-                <p className="text-gray-400 text-sm">Go to Settings → AI Crawler Guard in your WordPress admin</p>
+          <div className="bg-green-600 rounded-lg p-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-            </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
               <div>
-                <p className="text-white font-medium">Enter API Key</p>
-                <p className="text-gray-400 text-sm">Copy and paste your API key from below</p>
+                <h4 className="text-white font-semibold">No Manual Configuration Required!</h4>
+                <p className="text-green-100 text-sm">The plugin will be automatically configured from this dashboard</p>
               </div>
-            </div>
-          </div>
-          
-          <div className="bg-gray-700 rounded p-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2">Your API Key</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="text"
-                value={site?.apiKey || ''}
-                readOnly
-                className="flex-1 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white font-mono text-sm"
-              />
-              <button
-                onClick={() => copyToClipboard(site?.apiKey || '')}
-                className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded transition duration-200"
-              >
-                {copied ? 'Copied!' : 'Copy'}
-              </button>
             </div>
           </div>
 
           <div className="space-y-3">
             <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
+              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
               <div>
-                <p className="text-white font-medium">Save Settings</p>
-                <p className="text-gray-400 text-sm">Click "Save Changes" to activate bot protection</p>
+                <p className="text-white font-medium">Plugin Activation</p>
+                <p className="text-gray-400 text-sm">Once you activate the plugin in WordPress, it will automatically connect to our system</p>
               </div>
             </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
+              <div>
+                <p className="text-white font-medium">Auto-Configuration</p>
+                <p className="text-gray-400 text-sm">Default protection settings will be applied automatically</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-3">
+              <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
+              <div>
+                <p className="text-white font-medium">Dashboard Management</p>
+                <p className="text-gray-400 text-sm">All configuration is done from this dashboard - no WordPress admin needed!</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gray-700 rounded-lg p-4">
+            <h4 className="text-white font-medium mb-2">What happens automatically:</h4>
+            <ul className="text-gray-300 text-sm space-y-1">
+              <li>• Bot protection is enabled</li>
+              <li>• Common search engine bots are whitelisted</li>
+              <li>• API key is configured securely</li>
+              <li>• Real-time monitoring begins</li>
+            </ul>
           </div>
         </div>
       )
     },
     {
-      title: 'Test & Verify',
-      description: 'Verify that the plugin is working correctly',
+      title: 'Manage from Dashboard',
+      description: 'Control everything from this dashboard',
       content: (
         <div className="space-y-4">
           <div className="space-y-3">
@@ -155,21 +158,21 @@ const WordPressPluginGuide = ({ site, onClose }) => {
               <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
               <div>
                 <p className="text-white font-medium">Check Plugin Status</p>
-                <p className="text-gray-400 text-sm">The plugin should show "Connected" status in WordPress admin</p>
+                <p className="text-gray-400 text-sm">Use the "Configure" button to check if your plugin is online and configured</p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
               <div>
-                <p className="text-white font-medium">Monitor Dashboard</p>
-                <p className="text-gray-400 text-sm">Return to this dashboard to see bot detection analytics</p>
+                <p className="text-white font-medium">Customize Settings</p>
+                <p className="text-gray-400 text-sm">Adjust monetization, bot rules, and protection settings from this dashboard</p>
               </div>
             </div>
             <div className="flex items-start space-x-3">
               <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
               <div>
-                <p className="text-white font-medium">Test Bot Detection</p>
-                <p className="text-gray-400 text-sm">Visit your site with different user agents to test detection</p>
+                <p className="text-white font-medium">Monitor Analytics</p>
+                <p className="text-gray-400 text-sm">View real-time bot detection and revenue analytics in the dashboard</p>
               </div>
             </div>
           </div>
@@ -177,7 +180,14 @@ const WordPressPluginGuide = ({ site, onClose }) => {
           <div className="bg-green-500 bg-opacity-20 border border-green-500 rounded p-4">
             <h4 className="text-green-400 font-medium mb-2">🎉 Setup Complete!</h4>
             <p className="text-green-300 text-sm">
-              Your WordPress site is now protected by AI Crawler Guard. Bot requests will be detected, logged, and monetized according to your settings.
+              Your WordPress site is now protected by AI Crawler Guard. All management happens from this dashboard - no need to touch WordPress admin!
+            </p>
+          </div>
+
+          <div className="bg-blue-600 bg-opacity-20 border border-blue-500 rounded p-4">
+            <h4 className="text-blue-400 font-medium mb-2">💡 Pro Tip</h4>
+            <p className="text-blue-300 text-sm">
+              Click the "Configure" button next to your site to access advanced settings, check plugin status, and customize protection rules.
             </p>
           </div>
 
@@ -185,9 +195,9 @@ const WordPressPluginGuide = ({ site, onClose }) => {
             <h4 className="text-white font-medium mb-2">What happens next?</h4>
             <ul className="text-gray-300 text-sm space-y-1">
               <li>• AI bots visiting your site will be detected automatically</li>
-              <li>• Monetization will be applied based on your pricing settings</li>
+              <li>• Default protection settings are already active</li>
               <li>• Analytics will appear in this dashboard within minutes</li>
-              <li>• You can adjust settings anytime from the Bot Protection tab</li>
+              <li>• All configuration is done from this dashboard - never touch WordPress admin again!</li>
             </ul>
           </div>
         </div>
@@ -219,19 +229,17 @@ const WordPressPluginGuide = ({ site, onClose }) => {
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={index} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                  activeStep > index + 1 
-                    ? 'bg-green-600 text-white' 
-                    : activeStep === index + 1 
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-gray-600 text-gray-300'
-                }`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${activeStep > index + 1
+                  ? 'bg-green-600 text-white'
+                  : activeStep === index + 1
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-600 text-gray-300'
+                  }`}>
                   {activeStep > index + 1 ? '✓' : index + 1}
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`w-16 h-1 mx-2 ${
-                    activeStep > index + 1 ? 'bg-green-600' : 'bg-gray-600'
-                  }`}></div>
+                  <div className={`w-16 h-1 mx-2 ${activeStep > index + 1 ? 'bg-green-600' : 'bg-gray-600'
+                    }`}></div>
                 )}
               </div>
             ))}
@@ -256,11 +264,10 @@ const WordPressPluginGuide = ({ site, onClose }) => {
             <button
               onClick={() => setActiveStep(Math.max(1, activeStep - 1))}
               disabled={activeStep === 1}
-              className={`px-4 py-2 rounded transition duration-200 ${
-                activeStep === 1
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-600 hover:bg-gray-700 text-white'
-              }`}
+              className={`px-4 py-2 rounded transition duration-200 ${activeStep === 1
+                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-600 hover:bg-gray-700 text-white'
+                }`}
             >
               Previous
             </button>

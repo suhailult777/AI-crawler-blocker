@@ -9,3 +9,4 @@ type: "always_apply"
 -If there is a bug or error please try to solve the bug or error without removing any code or modify it analyze the bug properly
 -always use shadcn components
 -and always use context7 mcp to get the latest docs on everything
+-always make sure the code is secure and robust and you are not leaking any data ok use mcps if required to make and enhance the applications security

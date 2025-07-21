@@ -11,7 +11,10 @@ import {
     getSiteAnalytics,
     regenerateApiKey,
     validateApiKey,
-    getDashboardOverview
+    getDashboardOverview,
+    downloadPlugin,
+    pushConfigurationToPlugin,
+    getPluginStatus
 } from "../controllers/wordpress.controller.js";
 
 import {
@@ -30,6 +33,10 @@ wordpressRouter.put('/sites/:id', authorize, updateSiteSettings);
 wordpressRouter.delete('/sites/:id', authorize, deleteSite);
 wordpressRouter.post('/sites/:id/regenerate-key', authorize, regenerateApiKey);
 
+// Plugin configuration routes (require authentication)
+wordpressRouter.post('/sites/:id/configure', authorize, pushConfigurationToPlugin);
+wordpressRouter.get('/sites/:id/plugin-status', authorize, getPluginStatus);
+
 // Analytics routes (require authentication)
 wordpressRouter.get('/sites/:id/analytics', authorize, getSiteAnalytics);
 wordpressRouter.get('/sites/:id/bot-statistics', authorize, getBotStatistics);
@@ -40,5 +47,8 @@ wordpressRouter.get('/dashboard/overview', authorize, getDashboardOverview);
 wordpressRouter.post('/api/validate-key', validateApiKey);
 wordpressRouter.post('/api/detect-bot', detectBot);
 wordpressRouter.post('/api/log-request', logBotRequest);
+
+// Plugin download (public route)
+wordpressRouter.get('/plugin/download', downloadPlugin);
 
 export default wordpressRouter;
